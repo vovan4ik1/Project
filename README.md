@@ -31,4 +31,4 @@ Notifying the user about the end of the round and providing the option to start 
 Storing move information: The Move struct stores information about the starting and ending positions of a move.
 Checking if a move is an eating move: The CheckIfEatingMove() method determines if a move is an eating move, which is used to determine the possibility of making additional moves in the game.
 Converting a string to a move object: The QuitRoundOrConvertStringToMove() method converts a string representing a move in the format "start_position>end_position" into a move object. This allows for processing 
-user input and performing the corresponding actions in the game.[`Template Patern`](./Project2/Move.cs)
+user input and performing the corresponding actions in the game.[`Proxy Patern`](./Project2/Move.cs)
