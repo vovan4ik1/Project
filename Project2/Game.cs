@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Project2;
+using Project2.Checker;
 using Project2.Player;
 
 namespace GameCheckers
@@ -165,13 +167,13 @@ namespace GameCheckers
         {
             Checker eatingChecker = m_Board[m_CurrentMove.End.Y, m_CurrentMove.End.X];
 
-            if (eatingChecker.Type == Checker.eCheckerType.Soldier)
+            if (eatingChecker.Type == ECheckerType.Soldier)
             {
-                eatingChecker.insertSoldierEatingMovesToList(m_Board);
+                eatingChecker.InsertSoldierMoves(m_Board);
             }
-            else if (eatingChecker.Type == Checker.eCheckerType.King)
+            else if (eatingChecker.Type == ECheckerType.King)
             {
-                eatingChecker.insertKingEatingMovesToList(m_Board);
+                eatingChecker.InsertKingMoves(m_Board);
             }
 
             return eatingChecker.PossibleMoves;
@@ -179,12 +181,7 @@ namespace GameCheckers
 
         public bool thereIsEatingMoves(List<Move> i_PossibleMoves)
         {
-            bool thereIs = false;
-
-            if (i_PossibleMoves.Count > 0)
-            {
-                thereIs = true;
-            }
+            bool thereIs = i_PossibleMoves.Count > 0;
 
             return thereIs;
 
@@ -209,14 +206,14 @@ namespace GameCheckers
             return isLegal;
         }
 
-        public void updateBoard()
+        public void UpdateBoard()
         {
             m_Board[m_CurrentMove.End.Y, m_CurrentMove.End.X] = new Checker(m_CurrentTurn, m_CurrentMove.End, m_Board[m_CurrentMove.Start.Y, m_CurrentMove.Start.X].Type);
             m_Board[m_CurrentMove.Start.Y, m_CurrentMove.Start.X] = null;
 
             if (m_CurrentMove.End.Y == 0 || m_CurrentMove.End.Y == (m_Board.GetLength(0) - 1))
             {
-                m_Board[m_CurrentMove.End.Y, m_CurrentMove.End.X].Type = Checker.eCheckerType.King;
+                m_Board[m_CurrentMove.End.Y, m_CurrentMove.End.X].Type = ECheckerType.King;
             }
 
             if (m_CurrentMove.CheckIfEatingMove())
@@ -289,7 +286,7 @@ namespace GameCheckers
             {
                 if (checker != null && checker.Color != m_CurrentTurn)
                 {
-                    if (checker.Type == Checker.eCheckerType.Soldier)
+                    if (checker.Type == ECheckerType.Soldier)
                     {
                         score++;
                     }
@@ -300,7 +297,7 @@ namespace GameCheckers
                 }
                 else if (checker != null)
                 {
-                    if (checker.Type == Checker.eCheckerType.Soldier)
+                    if (checker.Type == ECheckerType.Soldier)
                     {
                         score--;
                     }

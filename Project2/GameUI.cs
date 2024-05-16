@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Project2;
+using Project2.Checker;
 using Project2.Player;
 
 namespace GameCheckers
@@ -44,7 +46,7 @@ namespace GameCheckers
 
                     while (game.CurrentMove.CheckIfEatingMove())
                     {
-                        game.updateBoard();
+                        game.UpdateBoard();
 
                         if (game.thereIsEatingMoves(game.CheckAdditionalEatingMove()))
                         {
@@ -71,7 +73,7 @@ namespace GameCheckers
                                 }
                             }
 
-                            game.updateBoard();
+                            game.UpdateBoard();
                         }
                         else
                         {
@@ -83,7 +85,7 @@ namespace GameCheckers
 
                     if (!game.CurrentMove.CheckIfEatingMove())
                     {
-                        game.updateBoard();
+                        game.UpdateBoard();
                     }
 
                     DrawBoard(game.Board);
@@ -213,7 +215,6 @@ namespace GameCheckers
                 }
             }
 
-            Ex02.ConsoleUtils.Screen.Clear();
             Console.Write(boardBuilder.ToString());
         }
 
@@ -231,7 +232,7 @@ namespace GameCheckers
                     }
                     else if (i_BoardMatrix[i_LineIndex, j].Color == EPlayerColor.White)
                     {
-                        if (i_BoardMatrix[i_LineIndex, j].Type == Checker.eCheckerType.Soldier)
+                        if (i_BoardMatrix[i_LineIndex, j].Type == ECheckerType.Soldier)
                         {
                             i_BoardBuilder.Append('X');
                         }
@@ -242,7 +243,7 @@ namespace GameCheckers
                     }
                     else if (i_BoardMatrix[i_LineIndex, j].Color == EPlayerColor.Black)
                     {
-                        if (i_BoardMatrix[i_LineIndex, j].Type == Checker.eCheckerType.Soldier)
+                        if (i_BoardMatrix[i_LineIndex, j].Type == ECheckerType.Soldier)
                         {
                             i_BoardBuilder.Append('O');
                         }
@@ -361,7 +362,6 @@ namespace GameCheckers
         {
             int currentRoundScore = i_Game.calculateScore();
 
-            Ex02.ConsoleUtils.Screen.Clear();
 
             if (i_Game.CurrentTurn == (EPlayerColor)i_Player1.Color)
             {

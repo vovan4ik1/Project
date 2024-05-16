@@ -1,36 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace GameCheckers
+﻿namespace Project2
 {
-    public struct SquarePosition
+    public class SquarePosition
     {
-        private int m_y;
-        private int m_x;
+        public int X { get; set; }
+        public int Y { get; set; }
 
-        public SquarePosition(int i_Y, int i_X)
+        public SquarePosition(int y, int x)
         {
-            m_x = i_X;
-            m_y = i_Y;
+            X = x;
+            Y = y;
         }
         
-        public SquarePosition(SquarePosition i_squarePosition)
+        public SquarePosition(SquarePosition squarePosition)
         {
-            m_x = i_squarePosition.X;
-            m_y = i_squarePosition.Y;
-        }
-
-        public int X
-        {
-            get { return m_x; }
-            set { m_x = value; }
-        }
-
-        public int Y
-        {
-            get { return m_y; }
-            set { m_y = value; }
+            X = squarePosition.X;
+            Y = squarePosition.Y;
         }
     }
 }
