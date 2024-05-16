@@ -1,4 +1,6 @@
-﻿namespace Project2.Player
+﻿using System;
+
+namespace Project2.Player
 {
     public class Player
     {
@@ -16,6 +18,12 @@
 
             Score = 0;
             Type = type;
+        }
+        
+        public static EPlayerColor TossColor()
+        {
+            Random random = new Random();
+            return random.Next() % 2 == 0 ? EPlayerColor.White : EPlayerColor.Black;
         }
     }
 }

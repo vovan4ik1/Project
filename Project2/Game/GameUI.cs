@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
-using Project2;
 using Project2.Checker;
 using Project2.Player;
 
-namespace GameCheckers
+namespace Project2.Game
 {
     public class GameUI
     {
@@ -19,15 +17,15 @@ namespace GameCheckers
         public static void StartNewGame()
         {
             bool anotherRound = true;
-            Player player1 = GetPlayerName();
+            Player.Player player1 = GetPlayerName();
             int boardSize = ChooseBoardSize();
             int gameMode = ChooseGameMode();
-            Player player2 = returnPlayer2Instance(gameMode);
+            Player.Player player2 = ReturnPlayer2Instance(gameMode);
             Game game = new Game(boardSize, player1, player2);
 
             while (anotherRound)
             {
-                game.initializeBoard(boardSize);
+                game.InitializeBoard(boardSize);
                 DrawBoard(game.Board);
 
                 while (game.BlacksCounter != 0 && game.WhitesCounter != 0)
@@ -48,7 +46,7 @@ namespace GameCheckers
                     {
                         game.UpdateBoard();
 
-                        if (game.thereIsEatingMoves(game.CheckAdditionalEatingMove()))
+                        if (game.ThereIsEatingMoves(game.CheckAdditionalEatingMove()))
                         {
                             if (game.CurrentPlayer().Type == EPlayerType.Computer)
                             {
@@ -59,7 +57,7 @@ namespace GameCheckers
                                 game.MakeAdditionalEatingMove(GetMoveFromPlayer(game.CurrentPlayer()));
                             }
 
-                            while (!game.checkIfCurrentMoveIsPossible(game.CheckAdditionalEatingMove()))
+                            while (!game.CheckIfCurrentMoveIsPossible(game.CheckAdditionalEatingMove()))
                             {
                                 WrongMoveInput();
 
@@ -90,15 +88,15 @@ namespace GameCheckers
 
                     DrawBoard(game.Board);
                     ShowPreviousMove(game.CurrentMove, game.CurrentPlayer());
-                    game.updateCurrentTurn();
+                    game.UpdateCurrentTurn();
                 }
 
-                printEndRound(game, player1, player2);
+                PrintEndRound(game, player1, player2);
                 anotherRound = DoYouWantAnotherRound();
             }
         }
 
-        public static bool DoYouWantAnotherRound()
+        private static bool DoYouWantAnotherRound()
         {
             bool anotherRound = false;
 
@@ -119,23 +117,21 @@ namespace GameCheckers
             }
             else
             {
-                output = String.Format(@"Допобачення");
+                output = @"Допобачення";
                 Console.WriteLine(output);
-                anotherRound = false;
             }
 
             return anotherRound;
         }
 
-        public static int ChooseBoardSize()
+        private static int ChooseBoardSize()
         {
             int boardSize;
             string sizeInput;
-            string output = string.Format(
-            @"Будь ласка вибиріть розмір дошки:
+            string output = @"Будь ласка вибиріть розмір дошки:
             Маленька Дошка: введіть '6'.
             Середня Дошка: введіть '8'.
-            Велика Дошка: введіть '10'.");
+            Велика Дошка: введіть '10'.";
 
             Console.WriteLine(output);
             sizeInput = Console.ReadLine();
@@ -153,18 +149,14 @@ namespace GameCheckers
             return boardSize;
         }
 
-        public static int ChooseGameMode()
+        private static int ChooseGameMode()
         {
-            string output;
-            string inputFromUser;
-            int gameMode;
-            output = string.Format(
-            @"Обрати режим гри:
+            var output = @"Обрати режим гри:
             Грати коп'ютером: введіть '1'
-            Грати в вдвох: введіть '2' ");
+            Грати в вдвох: введіть '2' ";
             Console.WriteLine(output);
-            inputFromUser = Console.ReadLine();
-            int.TryParse(inputFromUser, out gameMode);
+            var inputFromUser = Console.ReadLine();
+            int.TryParse(inputFromUser, out var gameMode);
 
             while (gameMode != k_SinglePlayer && gameMode != k_MultiPlayer)
             {                                                                
@@ -176,11 +168,11 @@ namespace GameCheckers
             return gameMode;
         }
 
-        public static Player returnPlayer2Instance(int i_GameMode)
+        private static Player.Player ReturnPlayer2Instance(int iGameMode)
         {
-            Player player2 = new Player();
+            Player.Player player2 = new Player.Player();
 
-            if (i_GameMode == k_MultiPlayer)
+            if (iGameMode == k_MultiPlayer)
             {
                 player2 = GetPlayerName();
             }
@@ -188,10 +180,10 @@ namespace GameCheckers
             return player2;
         }
 
-        public static void DrawBoard(Checker[,] i_Board)
+        private static void DrawBoard(Checker.Checker[,] iBoard)
         {
             StringBuilder boardBuilder = new StringBuilder();
-            int sizeOfBoard = i_Board.GetLength(0);
+            int sizeOfBoard = iBoard.GetLength(0);
 
             for (int i = 0; i < sizeOfBoard; i++)
             {
@@ -210,7 +202,7 @@ namespace GameCheckers
                 else if (i % 2 == 1)
                 {
                     boardBuilder.Append((char)('a' + (i / 2))).Append("|");
-                    DrawLine((i - 1) / 2, sizeOfBoard, i_Board, boardBuilder);
+                    DrawLine((i - 1) / 2, sizeOfBoard, iBoard, boardBuilder);
                     boardBuilder.AppendLine();
                 }
             }
@@ -218,67 +210,60 @@ namespace GameCheckers
             Console.Write(boardBuilder.ToString());
         }
 
-        private static void DrawLine(int i_LineIndex, int i_SizeOfBoard, Checker[,] i_BoardMatrix, StringBuilder i_BoardBuilder)
+        private static void DrawLine(int iLineIndex, int iSizeOfBoard, Checker.Checker[,] iBoardMatrix, StringBuilder iBoardBuilder)
         {
-            for (int j = 0; j < i_SizeOfBoard; j++)
+            for (int j = 0; j < iSizeOfBoard; j++)
             {
-                if ((j + i_LineIndex) % 2 == 1)
+                if ((j + iLineIndex) % 2 == 1)
                 {
-                    i_BoardBuilder.Append(" ");
+                    iBoardBuilder.Append(" ");
 
-                    if (i_BoardMatrix[i_LineIndex, j] == null)
+                    if (iBoardMatrix[iLineIndex, j] == null)
                     {
-                        i_BoardBuilder.Append(' ');
+                        iBoardBuilder.Append(' ');
                     }
-                    else if (i_BoardMatrix[i_LineIndex, j].Color == EPlayerColor.White)
+                    else if (iBoardMatrix[iLineIndex, j].Color == EPlayerColor.White)
                     {
-                        if (i_BoardMatrix[i_LineIndex, j].Type == ECheckerType.Soldier)
+                        if (iBoardMatrix[iLineIndex, j].Type == ECheckerType.Soldier)
                         {
-                            i_BoardBuilder.Append('X');
+                            iBoardBuilder.Append('X');
                         }
                         else
                         {
-                            i_BoardBuilder.Append('K');
+                            iBoardBuilder.Append('K');
                         }
                     }
-                    else if (i_BoardMatrix[i_LineIndex, j].Color == EPlayerColor.Black)
+                    else if (iBoardMatrix[iLineIndex, j].Color == EPlayerColor.Black)
                     {
-                        if (i_BoardMatrix[i_LineIndex, j].Type == ECheckerType.Soldier)
+                        if (iBoardMatrix[iLineIndex, j].Type == ECheckerType.Soldier)
                         {
-                            i_BoardBuilder.Append('O');
+                            iBoardBuilder.Append('O');
                         }
                         else
                         {
-                            i_BoardBuilder.Append('U');
+                            iBoardBuilder.Append('U');
                         } 
                     }
                         
-                    i_BoardBuilder.Append(" ").Append("|");
+                    iBoardBuilder.Append(" ").Append("|");
                 }
                 else
                 {
-                    i_BoardBuilder.Append(" ").Append(" ").Append(" ").Append("|");
+                    iBoardBuilder.Append(" ").Append(" ").Append(" ").Append("|");
                 }
             }
         }
 
-        private static bool CheckMoveStringFromPlayer(string i_move)
+        private static bool CheckMoveStringFromPlayer(string iMove)
         {
-            bool correctInput = false;
-                        
-            if (i_move.Length == 5 && i_move[2] == '>')
-            {
-                correctInput = true;
-            }
-
-            return correctInput;
+            return iMove.Length == 5 && iMove[2] == '>';
         }
 
-        private static char figureSign(EPlayerColor i_Color)
+        private static char FigureSign(EPlayerColor iColor)
         {
             char figure = 'O';
 
-            if (i_Color == EPlayerColor.White)
+            if (iColor == EPlayerColor.White)
             {
                 figure = 'X';
             }
@@ -286,9 +271,9 @@ namespace GameCheckers
             return figure;
         }
 
-        public static string GetMoveFromPlayer(Player i_Player)
+        private static string GetMoveFromPlayer(Player.Player iPlayer)
         {
-            string output = String.Format(@"{0}'s Turn ({1}) : ", i_Player.Name, figureSign(i_Player.Color));
+            string output = $@"{iPlayer.Name}'s Turn ({FigureSign(iPlayer.Color)}) : ";
             Console.WriteLine(output);
             string move = Console.ReadLine();
 
@@ -311,9 +296,9 @@ namespace GameCheckers
             return move;
         }
 
-        public static Player GetPlayerName()
+        private static Player.Player GetPlayerName()
         {
-            Player player = new Player(EPlayerType.Human);
+            Player.Player player = new Player.Player(EPlayerType.Human);
 
             string output = String.Format(
             @"<==========Шашки============>
@@ -335,43 +320,42 @@ namespace GameCheckers
             Console.WriteLine("Неправильний вхід! Введіть ще раз у такому форматі: 'COLrow>Colrow' або 'Q' для виходу");
         }
 
-        public static void ShowPreviousMove(Move i_Move, Player i_Player)
+        public static void ShowPreviousMove(Move i_Move, Player.Player i_Player)
         {            
             string move = String.Format(@"{0}{1}>{2}{3}", (char)(i_Move.Start.X + 'A'), (char)(i_Move.Start.Y + 'a'), (char)(i_Move.End.X + 'A'), (char)(i_Move.End.Y + 'a'));
                                 
             if (move != null)
             {
-                string output = String.Format(@"{0} move was ({1}) : {2}", i_Player.Name, figureSign(i_Player.Color), move);
+                string output = String.Format(@"{0} move was ({1}) : {2}", i_Player.Name, FigureSign(i_Player.Color), move);
                 Console.WriteLine(output);
             }
         }
 
-        public static void PrintScores(Player i_Player1, Player i_Player2, int i_currentScore)
+        public static void PrintScores(Player.Player iPlayer1, Player.Player iPlayer2, int iCurrentScore)
         {
-            string output = String.Format(
-         @"{0} Виграв раунд!
-         Поточний рахунок раунду: {1}
+            string output = $@"{iPlayer1.Name} Виграв раунд!
+         Поточний рахунок раунду: {iCurrentScore}
 
-         Загальні результати гри: {2} : {3}
-                                  {4} : {5}", i_Player1.Name, i_currentScore, i_Player1.Name, i_Player1.Score, i_Player2.Name, i_Player2.Score);
+         Загальні результати гри: {iPlayer1.Name} : {iPlayer1.Score}
+                                  {iPlayer2.Name} : {iPlayer2.Score}";
 
             Console.WriteLine(output);
         }
 
-        private static void printEndRound(Game i_Game, Player i_Player1, Player i_Player2)
+        private static void PrintEndRound(Game iGame, Player.Player iPlayer1, Player.Player iPlayer2)
         {
-            int currentRoundScore = i_Game.calculateScore();
+            int currentRoundScore = iGame.CalculateScore();
 
 
-            if (i_Game.CurrentTurn == (EPlayerColor)i_Player1.Color)
+            if (iGame.CurrentTurn == iPlayer1.Color)
             {
-                i_Player2.Score += currentRoundScore;
-                PrintScores(i_Player2, i_Player1, currentRoundScore);
+                iPlayer2.Score += currentRoundScore;
+                PrintScores(iPlayer2, iPlayer1, currentRoundScore);
             }
             else
             {
-                i_Player1.Score += currentRoundScore;
-                PrintScores(i_Player1, i_Player2, currentRoundScore);
+                iPlayer1.Score += currentRoundScore;
+                PrintScores(iPlayer1, iPlayer2, currentRoundScore);
             }
         }
     }

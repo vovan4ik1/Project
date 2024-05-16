@@ -1,5 +1,5 @@
 ﻿using System;
-using GameCheckers;
+using Project2.Game;
 
 namespace Project2
 {

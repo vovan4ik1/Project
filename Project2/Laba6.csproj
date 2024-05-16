@@ -40,12 +40,12 @@
   <ItemGroup>
     <Compile Include="Checker\Checker.cs" />
     <Compile Include="Checker\ECheckerType.cs" />
-    <Compile Include="Game.cs" />
+    <Compile Include="Game\Game.cs" />
+    <Compile Include="Game\GameUI.cs" />
     <Compile Include="Player\EPlayerColor.cs" />
     <Compile Include="Player\EPlayerType.cs" />
     <Compile Include="Player\Player.cs" />
     <Compile Include="SquarePosition.cs" />
-    <Compile Include="GameUI.cs" />
     <Compile Include="Move.cs" />
     <Compile Include="Program.cs" />
   </ItemGroup>
