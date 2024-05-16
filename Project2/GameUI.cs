@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Project2.Player;
 
 namespace GameCheckers
 {
@@ -29,7 +30,7 @@ namespace GameCheckers
 
                 while (game.BlacksCounter != 0 && game.WhitesCounter != 0)
                 {                     
-                    if (game.CurrentPlayer().Type == Player.ePlayerType.Computer)
+                    if (game.CurrentPlayer().Type == EPlayerType.Computer)
                     {
                         game.MakeMove();
                     }
@@ -47,7 +48,7 @@ namespace GameCheckers
 
                         if (game.thereIsEatingMoves(game.CheckAdditionalEatingMove()))
                         {
-                            if (game.CurrentPlayer().Type == Player.ePlayerType.Computer)
+                            if (game.CurrentPlayer().Type == EPlayerType.Computer)
                             {
                                 game.MakeAdditionalEatingMove();
                             }
@@ -60,7 +61,7 @@ namespace GameCheckers
                             {
                                 WrongMoveInput();
 
-                                if (game.CurrentPlayer().Type == Player.ePlayerType.Computer)
+                                if (game.CurrentPlayer().Type == EPlayerType.Computer)
                                 {
                                     game.MakeAdditionalEatingMove();
                                 }
@@ -228,7 +229,7 @@ namespace GameCheckers
                     {
                         i_BoardBuilder.Append(' ');
                     }
-                    else if (i_BoardMatrix[i_LineIndex, j].Color == ePlayerColor.White)
+                    else if (i_BoardMatrix[i_LineIndex, j].Color == EPlayerColor.White)
                     {
                         if (i_BoardMatrix[i_LineIndex, j].Type == Checker.eCheckerType.Soldier)
                         {
@@ -239,7 +240,7 @@ namespace GameCheckers
                             i_BoardBuilder.Append('K');
                         }
                     }
-                    else if (i_BoardMatrix[i_LineIndex, j].Color == ePlayerColor.Black)
+                    else if (i_BoardMatrix[i_LineIndex, j].Color == EPlayerColor.Black)
                     {
                         if (i_BoardMatrix[i_LineIndex, j].Type == Checker.eCheckerType.Soldier)
                         {
@@ -272,11 +273,11 @@ namespace GameCheckers
             return correctInput;
         }
 
-        private static char figureSign(ePlayerColor i_Color)
+        private static char figureSign(EPlayerColor i_Color)
         {
             char figure = 'O';
 
-            if (i_Color == ePlayerColor.White)
+            if (i_Color == EPlayerColor.White)
             {
                 figure = 'X';
             }
@@ -311,7 +312,7 @@ namespace GameCheckers
 
         public static Player GetPlayerName()
         {
-            Player player = new Player(Player.ePlayerType.Human);
+            Player player = new Player(EPlayerType.Human);
 
             string output = String.Format(
             @"<==========Шашки============>
@@ -362,7 +363,7 @@ namespace GameCheckers
 
             Ex02.ConsoleUtils.Screen.Clear();
 
-            if (i_Game.CurrentTurn == i_Player1.Color)
+            if (i_Game.CurrentTurn == (EPlayerColor)i_Player1.Color)
             {
                 i_Player2.Score += currentRoundScore;
                 PrintScores(i_Player2, i_Player1, currentRoundScore);

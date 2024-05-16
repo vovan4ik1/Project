@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Project2.Player;
 
 namespace GameCheckers
 {
-    public enum ePlayerColor
-    {
-        White = 1,
-        Black = -1
-    }
 
     class Game
     {
@@ -16,7 +12,7 @@ namespace GameCheckers
         const int k_MultiPlayer = 2;
 
         private Checker[,] m_Board;
-        private ePlayerColor m_CurrentTurn;
+        private EPlayerColor m_CurrentTurn;
         private int m_WhitesCounter;
         private int m_BlacksCounter;
         Player m_Player1;
@@ -32,7 +28,7 @@ namespace GameCheckers
             initializeBoard(i_BoardSize);
         }
 
-        public ePlayerColor CurrentTurn
+        public EPlayerColor CurrentTurn
         {
             get { return m_CurrentTurn; }    
         }
@@ -64,7 +60,7 @@ namespace GameCheckers
         public void initializeBoard(int i_BoardSize)
         {
             m_CurrentMove = new Move();
-            m_CurrentTurn = ePlayerColor.White;
+            m_CurrentTurn = EPlayerColor.White;
             m_Board = new Checker[i_BoardSize, i_BoardSize];
             m_BlacksCounter = 0;
             m_WhitesCounter = 0;
@@ -74,7 +70,7 @@ namespace GameCheckers
             {
                 for (int j = (i + 1) % 2; j < i_BoardSize; j += 2)
                 {
-                    m_Board[i, j] = new Checker(ePlayerColor.Black, new SquarePosition(i, j));
+                    m_Board[i, j] = new Checker(EPlayerColor.Black, new SquarePosition(i, j));
                     m_BlacksCounter++;
                 }
             }
@@ -83,7 +79,7 @@ namespace GameCheckers
             {
                 for (int j = (i + 1) % 2; j < i_BoardSize; j += 2)
                 {
-                    m_Board[i, j] = new Checker(ePlayerColor.White, new SquarePosition(i, j));
+                    m_Board[i, j] = new Checker(EPlayerColor.White, new SquarePosition(i, j));
                     m_WhitesCounter++;
                 }
             }
@@ -95,13 +91,13 @@ namespace GameCheckers
 
             if (number.Next() % 2 == 0)             
             {
-                m_Player1.Color = ePlayerColor.White;
-                m_Player2.Color = ePlayerColor.Black;
+                m_Player1.Color = EPlayerColor.White;
+                m_Player2.Color = EPlayerColor.Black;
             }
             else
             {
-                m_Player1.Color = ePlayerColor.Black;
-                m_Player2.Color = ePlayerColor.White;
+                m_Player1.Color = EPlayerColor.Black;
+                m_Player2.Color = EPlayerColor.White;
             }
         }
 
@@ -230,7 +226,7 @@ namespace GameCheckers
 
                 m_Board[i, j] = null;       
 
-                if (m_CurrentTurn == ePlayerColor.White)
+                if (m_CurrentTurn == EPlayerColor.White)
                 {
                     m_WhitesCounter--;
                 }
@@ -243,7 +239,7 @@ namespace GameCheckers
 
         public void updateCurrentTurn()
         {
-            m_CurrentTurn = (ePlayerColor)((int)m_CurrentTurn * -1);
+            m_CurrentTurn = (EPlayerColor)((int)m_CurrentTurn * -1);
         }
 
         public void updateCurrentPossibleMovesInCheckers()

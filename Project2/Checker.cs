@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Project2.Player;
 
 namespace GameCheckers
 {
@@ -12,14 +13,14 @@ namespace GameCheckers
             King
         }
 
-        private ePlayerColor m_Color;
+        private EPlayerColor m_Color;
         private eCheckerType m_Type;
         private SquarePosition m_Position;
 
 
         private List<Move> m_PossibleMoves;
 
-        public Checker(ePlayerColor i_Color, SquarePosition i_Position, eCheckerType i_Type = eCheckerType.Soldier)
+        public Checker(EPlayerColor i_Color, SquarePosition i_Position, eCheckerType i_Type = eCheckerType.Soldier)
         {
             m_Type = i_Type;
             m_Color = i_Color;
@@ -39,7 +40,7 @@ namespace GameCheckers
             set { m_PossibleMoves = value; }
         }
 
-        public ePlayerColor Color
+        public EPlayerColor Color
         {
             get { return m_Color; }
             set { m_Color = value; }
@@ -73,9 +74,9 @@ namespace GameCheckers
             }
         }
 
-        public ePlayerColor OppositeColor()
+        public EPlayerColor OppositeColor()
         {
-            ePlayerColor color = (ePlayerColor)((int)m_Color * -1);
+            EPlayerColor color = (EPlayerColor)((int)m_Color * -1);
 
             return color;
         }
