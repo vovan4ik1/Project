@@ -1,42 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace GameCheckers
+namespace Project2
 {
-    public struct Move
+    public class Move
     {
-        private SquarePosition m_Start;
-        private SquarePosition m_End;
+        public SquarePosition Start { get; set; }
+        public SquarePosition End { get; set; }
         
-        public Move(SquarePosition i_Start, SquarePosition i_End)
+        public Move(SquarePosition iStart, SquarePosition iEnd)
         {
-            m_Start = i_Start;
-            m_End = i_End;
+            Start = iStart;
+            End = iEnd;
+        }
+        
+        public Move()
+        {
+            
         }
 
-        public SquarePosition Start
-        {
-            get { return m_Start; }
-            set { m_Start = value; }
-        }
-
-        public SquarePosition End
-        {
-            get { return m_End; }
-            set { m_End = value; }
-        }
-
-        public bool QuitRoundOrConvertStringToMove(string i_Move)
+        public bool QuitRoundOrConvertStringToMove(string move)
         {
             bool isQuit = false;
 
-            if (i_Move != null)
+            if (!string.IsNullOrEmpty(move) && move.Length == 5)
             {
-                m_Start.X = i_Move[0] - 'A';
-                m_Start.Y = i_Move[1] - 'a';
-                m_End.X = i_Move[3] - 'A';
-                m_End.Y = i_Move[4] - 'a';
+                Start.X = move[0] - 'A';
+                Start.Y = move[1] - 'a';
+                End.X = move[3] - 'A';
+                End.Y = move[4] - 'a';
             }
             else
             {
@@ -48,14 +39,7 @@ namespace GameCheckers
 
         public bool CheckIfEatingMove()
         {
-            bool isEatingMove = false;
-
-            if (m_End.X - m_Start.X == 2 || m_End.X - m_Start.X == -2)
-            {
-                isEatingMove = true;
-            }
-
-            return isEatingMove;
+            return Math.Abs(End.X - Start.X) == 2;
         }
     }
 }

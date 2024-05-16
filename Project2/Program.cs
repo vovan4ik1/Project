@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using Project2.Game;
 
-
-namespace GameCheckers
+namespace Project2
 {
     public class Program
     {
